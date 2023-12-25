@@ -1,10 +1,11 @@
 properties([
-    parameters([[$class: 'ChoiceParameter', choiceType: 'PT_CHECKBOX', filterLength: 1, filterable: false, name: 'REPO_LIST', randomName: 'choice-parameter-1431964056666', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], oldScript: '', sandbox: false, script: ''], script: [classpath: [], oldScript: '', sandbox: false, script: '''def gitHubOrg = \'your-github-org\'
+    parameters([[$class: 'ChoiceParameter', choiceType: 'PT_CHECKBOX', filterLength: 1, filterable: false, name: 'REPO_LIST', randomName: 'choice-parameter-1431964056666', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], oldScript: '', sandbox: false, script: ''], script: [classpath: [], oldScript: '', sandbox: false, 
+                script: '''
                     // def apiEndpoint = "https://api.github.com/gonelayamuna/repos"
                     // Fetch Git repositories dynamically (GitHub example)
                     def gitHubUser = 'gonelayamuna'
                     def apiEndpoint = "https://api.github.com/users/gonelayamuna/repos"
-                    def repos = []
+                    def repos = ['YAMUNA','DEVI','GONELA', 'DHANYA']
                     
                     try {
                         def response = httpRequest(url: apiEndpoint, httpMode: 'GET', authentication: 'gonelayamuna')
@@ -17,7 +18,8 @@ properties([
                     }
                     
                     return repos
-                   ''']]]])])
+                   '''
+                ]]]])])
 
 pipeline {
     agent any
