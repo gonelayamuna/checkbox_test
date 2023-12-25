@@ -1,22 +1,22 @@
-properties([
-    parameters([
-        booleanParam(defaultValue: true, name: 'SELECT_ALL'),
-        [$class: 'ChoiceParameter', choiceType: 'PT_CHECKBOX', filterLength: 1, filterable: false, name: 'REPO_LIST', randomName: 'choice-parameter-1431964056666', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], oldScript: '', sandbox: false, script: ''], script: [classpath: [], oldScript: '', sandbox: false, 
-                script: '''
-                    // def repos = ['repo1', 'repo2', 'repo3']  // Replace with your logic to fetch repositories
-                    // if(SELECT_ALL) {
-                    //     repos = repos.collect { it -> [value: it, selected: true] }
-
-                    // }
-                    // return repos
-                    def repoNames = ['Repo 1', 'Repo 2', 'Repo 3']
-                    def selectedRepos = SELECT_ALL ? repoNames : []
-
-                    return repoNames.collect { repo ->
-                        [value: repo, selected: selectedRepos.contains(repo)]
-                    }
-                   '''
-                ]]]])])
+properties([parameters([
+    booleanParam('SELECT_ALL'), 
+    booleanParam('SELECT_NONE'), 
+    [$class: 'CascadeChoiceParameter', choiceType: 'PT_CHECKBOX', filterLength: 1, filterable: false, 
+    name: 'REPO_LIST', randomName: 'choice-parameter-17175272562041', 
+    referencedParameters: 'SELECT_ALL, SELECT_NONE', 
+    script: [$class: 'GroovyScript', fallbackScript: [classpath: [], oldScript: '', sandbox: false, script: ''], 
+    script: [classpath: [], oldScript: '', sandbox: false, 
+    script: '''
+            def repos = ['repo1', 'repo2', 'repo3']
+            if(SELECT_ALL) {
+                repos = repos.collect { it -> [value: it, selected: true] }
+            }
+            if (SELECT_NONE) {
+                repos = repos.collect { it -> [value: it, selected: false] }
+            }
+            return repos
+            ''']
+            ]]])])
 
 pipeline {
     agent any
