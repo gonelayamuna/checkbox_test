@@ -6,17 +6,19 @@ properties([parameters([
     referencedParameters: 'SELECT_ALL, SELECT_NONE', 
     script: [$class: 'GroovyScript', fallbackScript: [classpath: [], oldScript: '', sandbox: false, script: ''], 
     script: [classpath: [], oldScript: '', sandbox: false, 
-    script: '''
+    script: """
             def repos = ['repo1', 'repo2', 'repo3']
-            if(SELECT_ALL == 'true') {
-                repos = repos.collect { it -> [value: it, selected: true] }
+            if(SELECT_ALL) {
+                //repos = repos.collect { it -> [value: it, selected: true] }
+                return repos.collect { [it, true] }
             }
             if (SELECT_NONE == 'false') {
-                repos = repos.collect { it -> [value: it, selected: false] }
+                //repos = repos.collect { it -> [value: it, selected: false] }
+                return repos.collect { [it, false] }
             }
             return repos
-            ''']
-            ]]])])
+            """
+            ]]]])])
 
 pipeline {
     agent any
