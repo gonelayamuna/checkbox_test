@@ -1,22 +1,7 @@
 properties([
     parameters([[$class: 'ChoiceParameter', choiceType: 'PT_CHECKBOX', filterLength: 1, filterable: false, name: 'REPO_LIST', randomName: 'choice-parameter-1431964056666', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], oldScript: '', sandbox: false, script: ''], script: [classpath: [], oldScript: '', sandbox: false, 
                 script: '''
-                    // def apiEndpoint = "https://api.github.com/gonelayamuna/repos"
-                    // Fetch Git repositories dynamically (GitHub example)
-                    def gitHubUser = 'gonelayamuna'
-                    def apiEndpoint = "https://api.github.com/users/gonelayamuna/repos"
-                    def repos = ['YAMUNA','DEVI','GONELA', 'DHANYA']
-                    
-                    try {
-                        def response = httpRequest(url: apiEndpoint, httpMode: 'GET', authentication: 'gonelayamuna')
-                        def json = readJSON text: response.content
-                        json.each { repo ->
-                            repos << repo.name
-                        }
-                    } catch (Exception e) {
-                        echo "Error fetching repositories: ${e.message}"
-                    }
-                    
+                    def repos = ['repo1', 'repo2', 'repo3']  // Replace with your logic to fetch repositories
                     return repos
                    '''
                 ]]]])])
