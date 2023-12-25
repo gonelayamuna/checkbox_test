@@ -1,7 +1,13 @@
 properties([
-    parameters([[$class: 'ChoiceParameter', choiceType: 'PT_CHECKBOX', filterLength: 1, filterable: false, name: 'REPO_LIST', randomName: 'choice-parameter-1431964056666', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], oldScript: '', sandbox: false, script: ''], script: [classpath: [], oldScript: '', sandbox: false, 
+    parameters([
+        booleanParam(defaultValue: false, name: 'SELECT_ALL')
+        [$class: 'ChoiceParameter', choiceType: 'PT_CHECKBOX', filterLength: 1, filterable: false, name: 'REPO_LIST', randomName: 'choice-parameter-1431964056666', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], oldScript: '', sandbox: false, script: ''], script: [classpath: [], oldScript: '', sandbox: false, 
                 script: '''
                     def repos = ['repo1', 'repo2', 'repo3']  // Replace with your logic to fetch repositories
+                    if(SELECT_ALL) {
+                        repos = repos.collect { it -> [value: it, selected: true] }
+
+                    }
                     return repos
                    '''
                 ]]]])])
