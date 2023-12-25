@@ -1,0 +1,46 @@
+pipeline {
+    agent any
+    
+    parameters {
+        // Define an Active Choices Reactive Reference Parameter
+        activeChoiceReactiveReference(defaultValue: 'repo1', description: 'Select repositories', filterable: true, name: 'REPO_LIST', script: [
+            $class: 'GroovyScript', fallbackScript: [
+                classpath: [], sandbox: false, script: 'return ["Error: Script not supported in this configuration"]'
+            ],
+            script: [
+                classpath: [], sandbox: false, script: '''
+                    // Fetch Git repositories dynamically (GitHub example)
+                    def gitHubOrg = 'your-github-org'
+                    def apiEndpoint = "https://api.github.com/gonelayamuna/repos"
+                    def repos = []
+                    
+                    try {
+                        def response = httpRequest(url: apiEndpoint, httpMode: 'GET', authentication: 'gonelayamuna')
+                        def json = readJSON text: response.content
+                        json.each { repo ->
+                            repos << repo.name
+                        }
+                    } catch (Exception e) {
+                        echo "Error fetching repositories: ${e.message}"
+                    }
+                    
+                    return repos
+                '''
+            ]
+        ])
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    // Use the selected repositories in your build steps
+                    def selectedRepos = params.REPO_LIST
+                    echo "Selected repositories: ${selectedRepos}"
+                    
+                    // Your build steps go here
+                }
+            }
+        }
+    }
+}
