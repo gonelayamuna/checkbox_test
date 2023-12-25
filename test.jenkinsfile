@@ -1,10 +1,13 @@
 properties([
     parameters([[$class: 'ChoiceParameter', choiceType: 'PT_CHECKBOX', filterLength: 1, filterable: false, name: 'REPO_LIST', randomName: 'choice-parameter-1431964056666', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], oldScript: '', sandbox: false, script: ''], script: [classpath: [], oldScript: '', sandbox: false, script: '''def gitHubOrg = \'your-github-org\'
-                    def apiEndpoint = "https://api.github.com/gonelayamuna/repos"
+                    // def apiEndpoint = "https://api.github.com/gonelayamuna/repos"
+                    // Fetch Git repositories dynamically (GitHub example)
+                    def gitHubUser = 'your-github-username'
+                    def apiEndpoint = "https://api.github.com/users/${gitHubUser}/repos"
                     def repos = []
                     
                     try {
-                        def response = httpRequest(url: apiEndpoint, httpMode: 'GET', authentication: 'gonelayamuna')
+                        def response = httpRequest(url: apiEndpoint, httpMode: 'GET', authentication: 'your-credentials-id')
                         def json = readJSON text: response.content
                         json.each { repo ->
                             repos << repo.name
@@ -13,7 +16,8 @@ properties([
                         echo "Error fetching repositories: ${e.message}"
                     }
                     
-                    return repos''']]]])])
+                    return repos
+                   ''']]]])])
 
 pipeline {
     agent any
