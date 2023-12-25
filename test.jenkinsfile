@@ -3,7 +3,7 @@ properties([
                     // def apiEndpoint = "https://api.github.com/gonelayamuna/repos"
                     // Fetch Git repositories dynamically (GitHub example)
                     def gitHubUser = 'gonelayamuna'
-                    def apiEndpoint = "https://api.github.com/users/${gitHubUser}/repos"
+                    def apiEndpoint = "https://api.github.com/users/gonelayamuna/repos"
                     def repos = []
                     
                     try {
