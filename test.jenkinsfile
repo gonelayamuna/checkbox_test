@@ -1,21 +1,10 @@
-pipeline {
-    agent any
-    
-    parameters {
-        // Define an Active Choices Reactive Reference Parameter
-        activeChoiceReactiveReference(defaultValue: 'repo1', description: 'Select repositories', filterable: true, name: 'REPO_LIST', script: [
-            $class: 'GroovyScript', fallbackScript: [
-                classpath: [], sandbox: false, script: 'return ["Error: Script not supported in this configuration"]'
-            ],
-            script: [
-                classpath: [], sandbox: false, script: '''
-                    // Fetch Git repositories dynamically (GitHub example)
-                    def gitHubOrg = 'your-github-org'
+properties([
+    parameters([[$class: 'ChoiceParameter', choiceType: 'PT_CHECKBOX', filterLength: 1, filterable: false, name: 'REPO_LIST', randomName: 'choice-parameter-1431964056666', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], oldScript: '', sandbox: false, script: ''], script: [classpath: [], oldScript: '', sandbox: false, script: '''def gitHubOrg = \'your-github-org\'
                     def apiEndpoint = "https://api.github.com/gonelayamuna/repos"
                     def repos = []
                     
                     try {
-                        def response = httpRequest(url: apiEndpoint, httpMode: 'GET', authentication: 'gonelayamuna')
+                        def response = httpRequest(url: apiEndpoint, httpMode: \'GET\', authentication: \'gonelayamuna\')
                         def json = readJSON text: response.content
                         json.each { repo ->
                             repos << repo.name
@@ -24,12 +13,10 @@ pipeline {
                         echo "Error fetching repositories: ${e.message}"
                     }
                     
-                    return repos
-                '''
-            ]
-        ])
-    }
+                    return repos''']]]])])
 
+pipeline {
+    agent any
     stages {
         stage('Build') {
             steps {
